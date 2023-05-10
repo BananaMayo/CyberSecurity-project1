@@ -1,18 +1,16 @@
 <!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Bank Transfer</title>
+        <title>Notes creator</title>
     </head>
 
-
     <body>
-		<h1>Your account</h1>
+		<h1>Notes</h1>
 
         <table>
 		<tr>
-		<th style="text-align:left">Username: <td>{{user.username}} 
-		<tr>
-		<th style="text-align:left">Balance:  <td>{{user.account.balance}}
+		<th style="text-align:left">Logged in as: <td>{{user.username}} 
 		</table>
 
 
@@ -20,24 +18,34 @@
 			{% csrf_token %}
             <input type="submit" value="Logout"/>
         </form>
-		
-        <h2>Transfer money</h2>
 
-        <form action='transfer/' method="GET">
-            <span>To:</span><br/>
-            <select name="to">
-			{% for account in accounts %}
-                <option value="{{account.user.username}}">{{account.user.username}}</option>
-			{% endfor %}
-            </select><br/>
+        <h2>Create new note</h2>
 
-            <span>Amount:</span><br/>
-            <input type="number" name="amount"/><br/>
-
-            <input type="submit" value="Transfer"/>
+        <form action="notes" method="POST">
+        {% csrf_token %}
+        <label for="title">Title</label>
+        <br>
+        <input id="title" name="title" />
+        <br>
+        <label for="content">Description</label>
+        <br>
+        <textarea id="content" name="content"></textarea>
+        <button type="submit">Add</button>
         </form>
+
+        <div>
+        <ul>
+            <h2>Notes:</h2>
+            {% for note in notes %}
+            <li>
+              <div class="note">
+              <a href="/notes/{{note.id}}/">{{ note.title }}</a>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
     </body>
 
-
-    </body>
 </html>

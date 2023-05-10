@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Notes creator</title>
+    </head>
+
+
+    <body>
+        {% block content %}
+        <a href="/">Go back to notes</a>
+        <h1>{{ note.title }}</h1>
+        <p>{{ note.content }}</p>
+        <a href="/notes/{{note.id}}/delete" role="button" class="secondary">Delete</a>
+        {% endblock %}        
+    </body>
+</html>
