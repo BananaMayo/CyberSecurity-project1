@@ -1,21 +1,27 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 from .models import Account, Note
 
 
 @login_required
+@csrf_exempt
 def homePageView(request):
-	accounts = Account.objects.exclude(user_id=request.user.id)
+	injection = request.GET.get("find", "")
+	query = f"SELECT id, title FROM pages_note WHERE user_id = {request.user.id} AND title LIKE '%{injection}%'"
+	notes = Note.objects.raw(query)
 
-	notes = Note.objects.filter(
-		user=request.user,
-	)
 	return render(request, 'pages/index.html', {'notes': notes})
+
+	# notes = Note.objects.filter(
+	# 	user=request.user,
+	# )
 
 
 @login_required
+@csrf_exempt
 def noteAddView(request):
 	if request.method == "POST":
 		note = Note(
@@ -34,7 +40,7 @@ def noteView(request, note_id):
 
 
 @login_required
-def noteDelete(request, note_id):
+def noteDeleteView(request, note_id):
     note = Note.objects.get(pk=note_id)
     note.delete()
     return redirect("/")

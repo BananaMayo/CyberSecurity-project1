@@ -22,14 +22,14 @@
         <h2>Create new note</h2>
 
         <form action="notes" method="POST">
-        {% csrf_token %}
+        <!-- {% csrf_token %} -->
         <label for="title">Title</label>
         <br>
-        <input id="title" name="title" />
+        <input id="title" name="title"/>
         <br>
         <label for="content">Description</label>
         <br>
-        <textarea id="content" name="content"></textarea>
+        <textarea id="content" name="content" placeholder="Write here" cols="35" rows="10"></textarea>
         <button type="submit">Add</button>
         </form>
 
