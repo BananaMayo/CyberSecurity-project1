@@ -1,47 +1,90 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
+
     <head>
         <title>Notes creator</title>
+        <style>
+            .main {
+                text-align:center;
+            }
+            .GFG {
+                color: rgb(107, 82, 53);
+                font-size:50px;
+                font-weight:bold;
+            }
+            .notes {
+                font-style:bold;
+                font-size:16px;
+            }
+            .logged {
+                font-style:bold;
+                font-size:17px;
+            }
+            li {
+                margin: 5px;
+            }
+            body {
+                background-color: antiquewhite;
+            }
+            input, textarea{
+                background-color: rgb(236, 211, 179);
+            }
+            ::placeholder{
+                color: black;
+            }
+            h2 {
+                font-weight:bold;
+                color: rgb(128, 100, 69);
+            }
+
+        </style>     
     </head>
 
+
     <body>
-		<h1>Notes</h1>
+        <div class="main">
+            <table>
+                <tr>
+                <th style="text-align:center" class="logged">Logged in as: <td>{{user.username}} 
+            </table>
 
-        <table>
-		<tr>
-		<th style="text-align:left">Logged in as: <td>{{user.username}} 
-		</table>
 
+            <form action='logout/' method="POST" style="text-align: left;">
+                {% csrf_token %}
+                <input type="submit" value="Logout"/>
+            </form>
 
-        <form action='logout/' method="POST">
-			{% csrf_token %}
-            <input type="submit" value="Logout"/>
-        </form>
+            <div class="GFG">Notes</div>
+    
+            <h2>Create new note</h2>
 
-        <h2>Create new note</h2>
-
-        <form action="notes" method="POST">
-        <!-- {% csrf_token %} -->
-        <label for="title">Title</label>
-        <br>
-        <input id="title" name="title"/>
-        <br>
-        <label for="content">Description</label>
-        <br>
-        <textarea id="content" name="content" placeholder="Write here" cols="35" rows="10"></textarea>
-        <button type="submit">Add</button>
-        </form>
+                <form action="notes" method="POST" class="notes">
+                    <!-- Flaw 3: CSRF, the below token should be in use to fix the flaw -->
+                    <!-- {% csrf_token %} -->
+                    <label for="title">Title</label>
+                    <br>
+                    <input id="title" name="title" class="notes"/>
+                    <br></br>
+                    <label for="content">Description</label>
+                    <br>
+                    <textarea id="content" name="content" placeholder="Write here..." cols="45" rows="10" class="notes"></textarea>
+                    <br>
+                    <button type="submit">Add note</button>
+                </form>
+        </div>
 
         <div>
         <ul>
-            <h2>Notes:</h2>
+            <h2>Your notes:</h2>
             {% for note in notes %}
+            <ul>  
             <li>
-              <div class="note">
-              <a href="/notes/{{note.id}}/">{{ note.title }}</a>
-              </div>
+                <div class="note_list">
+                <a href="/notes/{{note.id}}/">{{ note.title }}</a>
+                </div>
             </li>
+            </ul>
             {% endfor %}
           </ul>
         </div>

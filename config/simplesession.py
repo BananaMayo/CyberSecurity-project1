@@ -1,6 +1,8 @@
 import django.contrib.sessions.backends.db as db
 
 class SessionStore(db.SessionStore):
+	#Flaw 2: Broken Authentication
+	#Prone to session hijacking, predictable session keys
 	session_counter = 0
 
 	def _get_new_session_key(self):

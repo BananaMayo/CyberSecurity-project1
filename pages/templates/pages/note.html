@@ -1,18 +1,55 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
+
     <head>
         <title>Notes creator</title>
+        <style>
+            .main {
+                text-align:center;
+            }
+            .GFG {
+                color: rgb(107, 82, 53);
+                font-size:30px;
+                font-weight:bold;
+            }
+            body {
+                background-color: antiquewhite;
+            }
+            input, textarea, button{
+                background-color: rgb(236, 211, 179);
+            }
+            
+            h2 {
+                font-weight:bold;
+                color: rgb(128, 100, 69);
+            }
+
+        </style>     
     </head>
 
 
     <body>
         {% block content %}
-        <a href="/">Go back to notes</a>
-        <h1>{{ note.title }}</h1>
-        <!-- Flaw! XSS, remove '|safe' from {{ note.content|safe }} -->
-        <p>{{ note.content|safe }}</p>
-        <a href="/notes/{{note.id}}/delete" role="button" class="secondary">Delete</a>
+        <button><a href="/">Go back to notes</a></button>
+        <div class="main">
+            <h1 class="GFG">{{ note.title }}</h1>
+            <!-- Flaw 5: XSS, remove '|safe' from {{ note.content|safe }} to fix the flaw-->
+            <div class="notes">
+                <p>{{ note.content|safe }}</p>
+            </div>
+            <button href="/notes/{{note.id}}/delete" role="button" class="secondary"  onClick="myFunction()">Delete
+        </div>
         {% endblock %}        
+    
+        <script>
+            function myFunction() { 
+               let r = confirm("Are you sure you want to delete this note?"); 
+               
+               if (r == false) { 
+                 return event.preventDefault();
+               } 
+            }
+         </script>
     </body>
 </html>

@@ -1,13 +1,36 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
+
     <head>
         <title>Notes creator</title>
+        <style>
+            .main {
+                text-align:center;
+            }
+            .GFG {
+                color: rgb(107, 82, 53);
+                font-size:30px;
+                font-weight:bold;
+            }
+            body {
+                background-color: antiquewhite;
+            }
+            input, textarea, button{
+                background-color: rgb(236, 211, 179);
+            }
+            
+            h2 {
+                font-weight:bold;
+                color: rgb(128, 100, 69);
+            }
+
+        </style>     
     </head>
 
 
-    <body>
-      <h2>Login</h2>
+    <body class="main">
+      <div class="GFG">Login</div>
       <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
